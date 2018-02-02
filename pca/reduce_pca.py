@@ -4,6 +4,9 @@ import numpy as np
 from sklearn import datasets, decomposition
 
 X = pd.read_csv('../DATA/dataset.csv')
+y = X.iloc[:, -1]
+X = X.iloc[:, :-1]  # remove sampe labels
+print(y)
 pca = decomposition.PCA(n_components=128)  # 使用默认的 n_components
 # pca.fit(X)
 X_r = pca.fit_transform(X)
@@ -12,4 +15,5 @@ print(X_r[:3])  # 默认n_components 没有降维,特征是按奇异值从大到
 
 
 dataframe_new = pd.DataFrame(X_r)
+dataframe_new = pd.concat([dataframe_new, y], axis=1)
 dataframe_new.to_csv('../DATA/data_compl.csv', index=False, header=False)
